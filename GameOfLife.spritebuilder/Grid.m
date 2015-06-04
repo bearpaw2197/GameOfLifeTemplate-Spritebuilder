@@ -83,6 +83,18 @@ static const int GRID_COLUMNS = 10;
 
     return _gridArray[row][column];}
 
+
+
+- (BOOL)isIndexValidForX:(int)x andY:(int)y
+{
+    BOOL isIndexValid = YES;
+    if(x < 0 || y < 0 || x >= GRID_ROWS || y >= GRID_COLUMNS)
+    {
+        isIndexValid = NO;
+    }
+    return isIndexValid;
+}
+
 - (void)evolveStep
 {
     //update each Creature's neighbor count
@@ -95,6 +107,44 @@ static const int GRID_COLUMNS = 10;
     _generation++;
     
 }
+
+
+- (void)updateCreatures
+{
+  int numAlive = 0;
+    
+    [self countNeighbors];
+    for (int i = 0; i < [_gridArray count]; i++)
+    {
+        // iterate through all the columns for a given row
+        for (int j = 0; j < [_gridArray[i] count]; j++)
+        {
+            // access the creature in the cell that corresponds to the current row/column
+            Creature *currentCreature = _gridArray[i][j];
+                    
+                                if( currentCreature.livingNeighbors == 3)
+                                    {
+                                       currentCreature.isAlive = TRUE;
+                                    
+         
+                                        if(currentCreature.livingNeighbors <= 1 || currentCreature.livingNeighbors >= 4){
+                                        
+                                            currentCreature.isAlive = FALSE;
+                                    
+                                        }
+                                        if(currentCreature.isAlive)
+                                        {
+                                            numAlive++;
+                                        }
+                                        
+                                   
+                                    
+                                    }
+                        }
+                    }
+                }
+
+
 - (void)countNeighbors
 {
     // iterate through the rows
@@ -136,55 +186,6 @@ static const int GRID_COLUMNS = 10;
         }
     }
 }
-
-- (BOOL)isIndexValidForX:(int)x andY:(int)y
-{
-    BOOL isIndexValid = YES;
-    if(x < 0 || y < 0 || x >= GRID_ROWS || y >= GRID_COLUMNS)
-    {
-        isIndexValid = NO;
-    }
-    return isIndexValid;
-}
-
-- (void)updateCreatures
-{
-  int numAlive = 0;
-    
-    [self countNeighbors];
-    for (int i = 0; i < [_gridArray count]; i++)
-    {
-        // iterate through all the columns for a given row
-        for (int j = 0; j < [_gridArray[i] count]; j++)
-        {
-            // access the creature in the cell that corresponds to the current row/column
-            Creature *currentCreature = _gridArray[i][j];
-                    
-                                if( currentCreature.livingNeighbors == 3)
-                                    {
-                                       currentCreature.isAlive = TRUE;
-                                    
-         
-                                        if(currentCreature.livingNeighbors <= 1 || currentCreature.livingNeighbors >= 4){
-                                        
-                                            currentCreature.isAlive = FALSE;
-                                    
-                                        }
-                                        if(currentCreature.isAlive)
-                                        {
-                                            numAlive++;
-                                        }
-                                        
-                                   
-                                    
-                                    }
-                        }
-                    }
-                }
-
-
-
-
 
 
 
