@@ -83,7 +83,7 @@ static const int GRID_COLUMNS = 10;
 
     return _gridArray[row][column];}
 
-- (void)envoleStep
+- (void)evolveStep
 {
     //update each Creature's neighbor count
     [self countNeighbors];
